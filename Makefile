@@ -86,7 +86,7 @@ $(BUILDDIR)/$(STATIC): $(OBJS)
 lint: clang-format
 
 clang-format:
-	find . -regex '.*\.\(cpp\|hpp\|cc\|cxx\|h\)' -exec clang-format-5.0 -style=file -i {} \;
+	find ./inc ./src -regex '.*\.\(cpp\|hpp\|cc\|cxx\|h\)' -exec clang-format-5.0 -style=file -i {} \;
 
 clean:
 	rm -f $(OBJS)
