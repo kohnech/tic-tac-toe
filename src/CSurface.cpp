@@ -77,23 +77,29 @@ SDL_Surface* CSurface::OnLoad(const char* File)
     return Surf_Return;
 }
 
-bool CSurface::OnDraw(SDL_Renderer* renderer, SDL_Texture* Surf_Src, int X, int Y)
+bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int x, int y, int x2, int y2, int w, int h)
 {
-    std::cout << "OnDraw" << std::endl;
-    if (Surf_Src == NULL)
+    if( Surf_Dest == NULL || Surf_Src == NULL )
     {
+        printf("Surface Drawing failed: %s\n", SDL_GetError());
         return false;
     }
 
     SDL_Rect DestR;
+    DestR.x = x;
+    DestR.y = y;
 
-    DestR.x = X;
-    DestR.y = Y;
+    SDL_Rect SrcR;
+    SrcR.x = x2;
+    SrcR.y = y2;
+    SrcR.w = w;
+    SrcR.h = h;
 
-    SDL_RenderCopy(renderer, Surf_Src, NULL, &DestR);
+    SDL_BlitSurface(Surf_Src, &SrcR, Surf_Dest, &DestR);
 
     return true;
 }
+
 
 bool CSurface::Transparent(SDL_Surface* Surf_Dest, int r, int g, int b)
 {

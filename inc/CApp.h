@@ -26,19 +26,32 @@ private:
     SDL_Window* mWindow;
 
     SDL_Texture* mTexture;
-    SDL_Texture* mGrid;
-    SDL_Surface* mX;
-    SDL_Surface* mO;
+    SDL_Texture* mGridText;
+    SDL_Surface* mXSurf;
+    SDL_Surface* mOSurf;
 
     SDL_Renderer* mRenderer;
 
     CSurface* mSurface;
+
+    enum GridType
+    {
+        GRID_TYPE_NONE = 0,
+        GRID_TYPE_X,
+        GRID_TYPE_O
+    };
+
+    GridType mGrid[9];
 
 public:
     CApp();
     ~CApp();
 
 public:
+    void resetGrid();
+
+    void setCell(int index, GridType type);
+
     bool onInit();
 
     bool onLoop();

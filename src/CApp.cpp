@@ -13,9 +13,9 @@ CApp::CApp()
 : mIsRunning{ true }
 , mWindow{ NULL }
 , mTexture{ NULL }
-, mGrid{ NULL }
-, mX{ NULL }
-, mO{ NULL }
+, mGridText{ NULL }
+, mXSurf{ NULL }
+, mOSurf{ NULL }
 , mRenderer{ NULL }
 , mSurface{ new CSurface() }
 {
@@ -23,6 +23,29 @@ CApp::CApp()
 
 CApp::~CApp()
 {
+    onCleanup();
+}
+
+void CApp::resetGrid()
+{
+    for(int i = 0;i < 9;i++)
+    {
+        mGrid[i] = GRID_TYPE_NONE;
+    }
+}
+
+void CApp::setCell(int index, GridType type)
+{
+    if(index < 0 || index >= 9)
+    {
+        return;
+    }
+    if(type < 0 || type > GRID_TYPE_O)
+    {
+        return;
+    }
+
+    mGrid[index] = type;
 }
 
 bool CApp::onInit()
@@ -58,33 +81,35 @@ bool CApp::onInit()
     }
 
     std::string gridAsset = "./assets/grid.png";
-    if ((mGrid = CSurface::loadTexture(mRenderer, gridAsset)) == NULL)
+    if ((mGridText = CSurface::loadTexture(mRenderer, gridAsset)) == NULL)
     {
         std::cout << "Could not load asset!" << gridAsset << std::endl;
         return false;
     }
 
     std::string xAsset = "./assets/x.png";
-    if ((mX = CSurface::loadSurface(xAsset)) == NULL)
+    if ((mXSurf = CSurface::loadSurface(xAsset)) == NULL)
     {
         std::cout << "Could not load asset!" << xAsset << std::endl;
         return false;
     }
 
     std::string oAsset = "./assets/o.png";
-    if ((mO = CSurface::loadSurface(oAsset)) == NULL)
+    if ((mOSurf = CSurface::loadSurface(oAsset)) == NULL)
     {
         std::cout << "Could not load asset" << oAsset << std::endl;
         return false;
     }
 
-    mSurface->Transparent(mX, 255, 0, 255);
-    mSurface->Transparent(mO, 255, 0, 255);
+    mSurface->Transparent(mXSurf, 255, 0, 255);
+    mSurface->Transparent(mOSurf, 255, 0, 255);
 
 
     SDL_SetRenderDrawColor(mRenderer, 0, 255, 0, 0); // green
     SDL_RenderClear(mRenderer);
     SDL_RenderPresent(mRenderer);
+
+    resetGrid();
 
     return true;
 }
@@ -98,8 +123,23 @@ void CApp::onRender()
 {
     SDL_RenderClear(mRenderer);
     // CSurface::OnDraw(mRenderer, mTexture, 0, 0);
-    SDL_RenderCopy(mRenderer, mGrid, NULL, NULL);
+    // Render Grid
+    for(int i = 0; i < 9; i++) {
+        int X = (i % 3) * 200;
+        int Y = (i / 3) * 200;
 
+        if(mGrid[i] == GRID_TYPE_X)
+        {
+            CSurface::OnDraw(Surf_Display, Surf_X, X, Y);
+        }
+        else {
+            if (mGrid[i] == GRID_TYPE_O)
+            {
+                CSurface::OnDraw(Surf_Display, Surf_O, X, Y);
+            }
+        }
+
+    SDL_RenderCopy(mRenderer, mGridText, NULL, NULL);
     SDL_RenderPresent(mRenderer);
     SDL_Delay(1000 / FRAMES_PER_SECOND);
 }
@@ -108,7 +148,7 @@ void CApp::onCleanup()
 {
     delete mSurface;
     SDL_DestroyTexture(mTexture);
-    SDL_DestroyTexture(mGrid);
+    SDL_DestroyTexture(mGridText);
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
     std::cout << "Quitting..." << std::endl;
