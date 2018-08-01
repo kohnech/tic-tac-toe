@@ -6,6 +6,10 @@
 
 #include <string>
 
+/// Forward declarations
+class CSurface;
+
+
 //Screen dimension constants
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;
@@ -26,6 +30,8 @@ private:
     SDL_Surface* mO;
 
     SDL_Renderer* mRenderer;
+
+    CSurface* mSurface;
 
 public:
     CApp();

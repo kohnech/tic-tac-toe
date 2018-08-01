@@ -17,8 +17,10 @@ CApp::CApp()
         , mX { NULL }
         , mO { NULL }
         , mRenderer{ NULL }
+        , mSurface{ NULL }
 {
     mIsRunning = true;
+    mSurface = new CSurface();
 }
 
 CApp::~CApp(){}
@@ -72,8 +74,8 @@ bool CApp::onInit() {
         return false;
     }
 
-    CSurface::Transparent(mX, 255, 0, 255);
-    CSurface::Transparent(mO, 255, 0, 255);
+    mSurface->Transparent(mX, 255, 0, 255);
+    mSurface->Transparent(mO, 255, 0, 255);
 
 
     SDL_SetRenderDrawColor(mRenderer, 0, 255, 0, 0); // green
@@ -97,6 +99,7 @@ void CApp::onRender() {
 }
 
 void CApp::onCleanup() {
+    delete mSurface;
     SDL_DestroyTexture(mTexture);
     SDL_DestroyTexture(mGrid);
     SDL_DestroyWindow(mWindow);
