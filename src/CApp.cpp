@@ -23,28 +23,7 @@ CApp::CApp()
 
 CApp::~CApp(){}
 
-int CApp::OnExecute() {
-    if(OnInit() == false) {
-        return -1;
-    }
-
-    SDL_Event Event;
-
-    while(mIsRunning) {
-        while(SDL_PollEvent(&Event)) {
-            OnEvent(&Event);
-        }
-
-        OnLoop();
-        OnRender();
-    }
-
-    OnCleanup();
-
-    return 0;
-}
-
-bool CApp::OnInit() {
+bool CApp::onInit() {
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         return false;
     }
@@ -104,14 +83,11 @@ bool CApp::OnInit() {
     return true;
 }
 
-void CApp::OnEvent(SDL_Event* event) {
-    CEvent::OnEvent(event);
+bool CApp::onLoop() {
+    return mIsRunning;
 }
 
-void CApp::OnLoop() {
-}
-
-void CApp::OnRender() {
+void CApp::onRender() {
     SDL_RenderClear( mRenderer );
     //CSurface::OnDraw(mRenderer, mTexture, 0, 0);
     SDL_RenderCopy(mRenderer, mGrid, NULL, NULL);
@@ -120,7 +96,7 @@ void CApp::OnRender() {
     SDL_Delay(1000 / FRAMES_PER_SECOND);
 }
 
-void CApp::OnCleanup() {
+void CApp::onCleanup() {
     SDL_DestroyTexture(mTexture);
     SDL_DestroyTexture(mGrid);
     SDL_DestroyWindow(mWindow);
@@ -141,4 +117,3 @@ void CApp::OnKeyDown(SDL_Keycode sym, Uint16 mod, SDL_Scancode unicode)
 {
     std::cout << "Key pressed: " << unicode << std::endl;
 }
-

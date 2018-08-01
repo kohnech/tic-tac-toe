@@ -31,19 +31,15 @@ public:
     CApp();
     ~CApp();
 
-    int OnExecute();
-
 public:
 
-    bool OnInit();
+    bool onInit();
 
-    void OnEvent(SDL_Event* Event);
+    bool onLoop();
 
-    void OnLoop();
+    void onRender();
 
-    void OnRender();
-
-    void OnCleanup();
+    void onCleanup();
 
     void OnExit();
 
