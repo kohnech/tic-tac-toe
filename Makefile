@@ -22,6 +22,10 @@ INCLUDE_DIRS += -I$(PROJ_ROOT)/inc \
 LIBS = -lSDL2 -lSDL2main -lSDL2_image
 LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib
 
+## Libs 3rd-party dependencies
+export LD_LIBRARY_PATH=$(3RDPARTYDIR)/sndio:$LD_LIBRARY_PATH
+$(info LD_LIBRARY_PATH: $(LD_LIBRARY_PATH))
+
 ## Compiler
 BUILD_TYPE ?= DEBUG
 CXX = g++
