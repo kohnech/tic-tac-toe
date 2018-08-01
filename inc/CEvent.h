@@ -2,7 +2,8 @@
 
 #include <SDL2/SDL.h>
 
-class CEvent {
+class CEvent
+{
 public:
     CEvent();
 
@@ -26,9 +27,9 @@ public:
 
     virtual void OnMouseBlur();
 
-    virtual void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right,bool Middle);
+    virtual void OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle);
 
-    virtual void OnMouseWheel(bool Up, bool Down);    //Not implemented
+    virtual void OnMouseWheel(bool Up, bool Down); // Not implemented
 
     virtual void OnLButtonDown(int mX, int mY);
 
@@ -56,7 +57,7 @@ public:
 
     virtual void OnRestore();
 
-    virtual void OnResize(int w,int h);
+    virtual void OnResize(int w, int h);
 
     virtual void OnExpose();
 

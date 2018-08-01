@@ -4,14 +4,15 @@
 
 #include <string>
 
-class CSurface {
+class CSurface
+{
 public:
     CSurface();
 
 public:
-    static SDL_Texture* loadTexture( SDL_Renderer* renderer, std::string path );
+    static SDL_Texture* loadTexture(SDL_Renderer* renderer, std::string path);
 
-    static SDL_Surface* loadSurface( SDL_Renderer* renderer, std::string path );
+    static SDL_Surface* loadSurface(std::string path);
 
     static SDL_Surface* OnLoad(const char* File);
 

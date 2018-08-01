@@ -10,7 +10,7 @@
 class CSurface;
 
 
-//Screen dimension constants
+// Screen dimension constants
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;
 
@@ -18,11 +18,12 @@ const int FRAMES_PER_SECOND = 2;
 const char TITLE[] = "Tic Tac Toe";
 
 
-class CApp : public CEvent {
+class CApp : public CEvent
+{
 private:
-    bool    mIsRunning;
+    bool mIsRunning;
 
-    SDL_Window*    mWindow;
+    SDL_Window* mWindow;
 
     SDL_Texture* mTexture;
     SDL_Texture* mGrid;
@@ -38,7 +39,6 @@ public:
     ~CApp();
 
 public:
-
     bool onInit();
 
     bool onLoop();
@@ -49,7 +49,7 @@ public:
 
     void OnExit();
 
-    void OnResize(int w,int h);
+    void OnResize(int w, int h);
 
     void OnKeyDown(SDL_Keycode sym, Uint16 mod, SDL_Scancode unicode);
 };

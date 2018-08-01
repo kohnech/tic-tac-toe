@@ -9,67 +9,72 @@
 #include <iostream>
 
 
-
 CApp::CApp()
-        : mWindow { NULL }
-        , mTexture { NULL }
-        , mGrid { NULL }
-        , mX { NULL }
-        , mO { NULL }
-        , mRenderer{ NULL }
-        , mSurface{ NULL }
+: mWindow{ NULL }
+, mTexture{ NULL }
+, mGrid{ NULL }
+, mX{ NULL }
+, mO{ NULL }
+, mRenderer{ NULL }
+, mSurface{ NULL }
 {
     mIsRunning = true;
     mSurface = new CSurface();
 }
 
-CApp::~CApp(){}
+CApp::~CApp()
+{
+}
 
-bool CApp::onInit() {
-    if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+bool CApp::onInit()
+{
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
         return false;
     }
 
-    mWindow = SDL_CreateWindow(TITLE,
-                               SDL_WINDOWPOS_UNDEFINED,
-                               SDL_WINDOWPOS_UNDEFINED,
-                               SCREEN_WIDTH,
-                               SCREEN_HEIGHT,
-                               SDL_WINDOW_RESIZABLE);
+    mWindow = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                               SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
 
-    if(mWindow == NULL) {
+    if (mWindow == NULL)
+    {
         std::cout << "SDL_CreateWindow got NULL!" << std::endl;
         return false;
     }
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, 0);
 
-    if (mRenderer == NULL) {
+    if (mRenderer == NULL)
+    {
         std::cout << "SDL_CreateRenderer got NULL!" << std::endl;
         return false;
     }
 
     std::string img = "./assets/astronaut.png";
     mTexture = CSurface::loadTexture(mRenderer, img);
-    if(mTexture == NULL) {
+    if (mTexture == NULL)
+    {
         std::cout << "Could not loadTexture!" << std::endl;
         return false;
     }
 
     std::string gridAsset = "./assets/grid.png";
-    if((mGrid = CSurface::loadTexture(mRenderer, gridAsset)) == NULL) {
+    if ((mGrid = CSurface::loadTexture(mRenderer, gridAsset)) == NULL)
+    {
         std::cout << "Could not load asset!" << gridAsset << std::endl;
         return false;
     }
 
     std::string xAsset = "./assets/x.png";
-    if((mX = CSurface::loadSurface(mRenderer, xAsset)) == NULL) {
+    if ((mX = CSurface::loadSurface(xAsset)) == NULL)
+    {
         std::cout << "Could not load asset!" << xAsset << std::endl;
         return false;
     }
 
     std::string oAsset = "./assets/o.png";
-    if((mO = CSurface::loadSurface(mRenderer, oAsset)) == NULL) {
+    if ((mO = CSurface::loadSurface(oAsset)) == NULL)
+    {
         std::cout << "Could not load asset" << oAsset << std::endl;
         return false;
     }
@@ -85,20 +90,23 @@ bool CApp::onInit() {
     return true;
 }
 
-bool CApp::onLoop() {
+bool CApp::onLoop()
+{
     return mIsRunning;
 }
 
-void CApp::onRender() {
-    SDL_RenderClear( mRenderer );
-    //CSurface::OnDraw(mRenderer, mTexture, 0, 0);
+void CApp::onRender()
+{
+    SDL_RenderClear(mRenderer);
+    // CSurface::OnDraw(mRenderer, mTexture, 0, 0);
     SDL_RenderCopy(mRenderer, mGrid, NULL, NULL);
 
     SDL_RenderPresent(mRenderer);
     SDL_Delay(1000 / FRAMES_PER_SECOND);
 }
 
-void CApp::onCleanup() {
+void CApp::onCleanup()
+{
     delete mSurface;
     SDL_DestroyTexture(mTexture);
     SDL_DestroyTexture(mGrid);
@@ -107,12 +115,14 @@ void CApp::onCleanup() {
     std::cout << "Quitting..." << std::endl;
 }
 
-void CApp::OnExit() {
+void CApp::OnExit()
+{
     std::cout << "Quiting... bye!" << std::endl;
     mIsRunning = false;
 }
 
-void CApp::OnResize(int w,int h) {
+void CApp::OnResize(int w, int h)
+{
     std::cout << "Window resized width: " << w << ", height: " << h << std::endl;
 }
 
