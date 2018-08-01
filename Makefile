@@ -25,8 +25,8 @@ LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib
 ## Compiler
 BUILD_TYPE ?= DEBUG
 CXX = g++
-STATIC = libfirsttest.a
-DYNAMIC = libfirsttest.so
+STATIC = lib$(COMPONENT_NAME).a
+DYNAMIC = lib$(COMPONENT_NAME).so
 CXXFLAGS = -Wall -Winline -Werror -pipe -std=c++11 -fPIC
 ifeq ($(BUILD_TYPE),DEBUG)
 	CXXFLAGS += -g -O0

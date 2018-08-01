@@ -10,16 +10,15 @@
 
 
 CApp::CApp()
-: mWindow{ NULL }
+: mIsRunning{ true }
+, mWindow{ NULL }
 , mTexture{ NULL }
 , mGrid{ NULL }
 , mX{ NULL }
 , mO{ NULL }
 , mRenderer{ NULL }
-, mSurface{ NULL }
+, mSurface{ new CSurface() }
 {
-    mIsRunning = true;
-    mSurface = new CSurface();
 }
 
 CApp::~CApp()
@@ -115,18 +114,18 @@ void CApp::onCleanup()
     std::cout << "Quitting..." << std::endl;
 }
 
-void CApp::OnExit()
+void CApp::onExit()
 {
     std::cout << "Quiting... bye!" << std::endl;
     mIsRunning = false;
 }
 
-void CApp::OnResize(int w, int h)
+void CApp::onResize(int w, int h)
 {
     std::cout << "Window resized width: " << w << ", height: " << h << std::endl;
 }
 
-void CApp::OnKeyDown(SDL_Keycode sym, Uint16 mod, SDL_Scancode unicode)
+void CApp::onKeyDown(SDL_Keycode sym, Uint16 mod, SDL_Scancode unicode)
 {
     std::cout << "Key pressed: " << unicode << std::endl;
 }

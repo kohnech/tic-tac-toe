@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     {
         while (SDL_PollEvent(&event))
         {
-            theApp.OnEvent(&event);
+            theApp.onEvent(&event);
         }
 
         isRunning = theApp.onLoop();

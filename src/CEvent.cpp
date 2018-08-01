@@ -9,7 +9,7 @@ CEvent::~CEvent()
     // Do nothing
 }
 
-void CEvent::OnEvent(SDL_Event* event)
+void CEvent::onEvent(SDL_Event* event)
 {
     switch (event->type)
     {
@@ -19,27 +19,27 @@ void CEvent::OnEvent(SDL_Event* event)
         {
         case SDL_WINDOWEVENT_ENTER:
         {
-            OnMouseEnter();
+            onMouseEnter();
             break;
         }
         case SDL_WINDOWEVENT_LEAVE:
         {
-            OnMouseLeave();
+            onMouseLeave();
             break;
         }
         case SDL_WINDOWEVENT_FOCUS_GAINED:
         {
-            OnInputFocusGained();
+            onInputFocusGained();
             break;
         }
         case SDL_WINDOWEVENT_FOCUS_LOST:
         {
-            OnInputFocusLost();
+            onInputFocusLost();
             break;
         }
         case SDL_WINDOWEVENT_RESIZED:
         {
-            OnResize(event->window.data1, event->window.data2);
+            onResize(event->window.data1, event->window.data2);
             break;
         }
         case SDL_WINDOWEVENT_SHOWN:
@@ -58,19 +58,19 @@ void CEvent::OnEvent(SDL_Event* event)
 
     case SDL_KEYDOWN:
     {
-        OnKeyDown(event->key.keysym.sym, event->key.keysym.mod, event->key.keysym.scancode);
+        onKeyDown(event->key.keysym.sym, event->key.keysym.mod, event->key.keysym.scancode);
         break;
     }
 
     case SDL_KEYUP:
     {
-        OnKeyUp(event->key.keysym.sym, event->key.keysym.mod, event->key.keysym.scancode);
+        onKeyUp(event->key.keysym.sym, event->key.keysym.mod, event->key.keysym.scancode);
         break;
     }
 
     case SDL_MOUSEMOTION:
     {
-        OnMouseMove(event->motion.x, event->motion.y, event->motion.xrel, event->motion.yrel,
+        onMouseMove(event->motion.x, event->motion.y, event->motion.xrel, event->motion.yrel,
                     (event->motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0,
                     (event->motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0,
                     (event->motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0);
@@ -83,17 +83,17 @@ void CEvent::OnEvent(SDL_Event* event)
         {
         case SDL_BUTTON_LEFT:
         {
-            OnLButtonDown(event->button.x, event->button.y);
+            onLButtonDown(event->button.x, event->button.y);
             break;
         }
         case SDL_BUTTON_RIGHT:
         {
-            OnRButtonDown(event->button.x, event->button.y);
+            onRButtonDown(event->button.x, event->button.y);
             break;
         }
         case SDL_BUTTON_MIDDLE:
         {
-            OnMButtonDown(event->button.x, event->button.y);
+            onMButtonDown(event->button.x, event->button.y);
             break;
         }
         }
@@ -106,17 +106,17 @@ void CEvent::OnEvent(SDL_Event* event)
         {
         case SDL_BUTTON_LEFT:
         {
-            OnLButtonUp(event->button.x, event->button.y);
+            onLButtonUp(event->button.x, event->button.y);
             break;
         }
         case SDL_BUTTON_RIGHT:
         {
-            OnRButtonUp(event->button.x, event->button.y);
+            onRButtonUp(event->button.x, event->button.y);
             break;
         }
         case SDL_BUTTON_MIDDLE:
         {
-            OnMButtonUp(event->button.x, event->button.y);
+            onMButtonUp(event->button.x, event->button.y);
             break;
         }
         }
@@ -125,36 +125,36 @@ void CEvent::OnEvent(SDL_Event* event)
 
     case SDL_JOYAXISMOTION:
     {
-        OnJoyAxis(event->jaxis.which, event->jaxis.axis, event->jaxis.value);
+        onJoyAxis(event->jaxis.which, event->jaxis.axis, event->jaxis.value);
         break;
     }
 
     case SDL_JOYBALLMOTION:
     {
-        OnJoyBall(event->jball.which, event->jball.ball, event->jball.xrel, event->jball.yrel);
+        onJoyBall(event->jball.which, event->jball.ball, event->jball.xrel, event->jball.yrel);
         break;
     }
 
     case SDL_JOYHATMOTION:
     {
-        OnJoyHat(event->jhat.which, event->jhat.hat, event->jhat.value);
+        onJoyHat(event->jhat.which, event->jhat.hat, event->jhat.value);
         break;
     }
     case SDL_JOYBUTTONDOWN:
     {
-        OnJoyButtonDown(event->jbutton.which, event->jbutton.button);
+        onJoyButtonDown(event->jbutton.which, event->jbutton.button);
         break;
     }
 
     case SDL_JOYBUTTONUP:
     {
-        OnJoyButtonUp(event->jbutton.which, event->jbutton.button);
+        onJoyButtonUp(event->jbutton.which, event->jbutton.button);
         break;
     }
 
     case SDL_QUIT:
     {
-        OnExit();
+        onExit();
         break;
     }
 
@@ -171,143 +171,143 @@ void CEvent::OnEvent(SDL_Event* event)
 
     default:
     {
-        OnUser(event->user.type, event->user.code, event->user.data1, event->user.data2);
+        onUser(event->user.type, event->user.code, event->user.data1, event->user.data2);
         break;
     }
     }
 }
 
-void CEvent::OnInputFocusGained()
+void CEvent::onInputFocusGained()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnInputFocusLost()
+void CEvent::onInputFocusLost()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnInputBlur()
+void CEvent::onInputBlur()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnKeyDown(SDL_Keycode sym, Uint16 mod, SDL_Scancode scancode)
+void CEvent::onKeyDown(SDL_Keycode sym, Uint16 mod, SDL_Scancode scancode)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnKeyUp(SDL_Keycode sym, Uint16 mod, SDL_Scancode scancode)
+void CEvent::onKeyUp(SDL_Keycode sym, Uint16 mod, SDL_Scancode scancode)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMouseEnter()
+void CEvent::onMouseEnter()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMouseLeave()
+void CEvent::onMouseLeave()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMouseBlur()
+void CEvent::onMouseBlur()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle)
+void CEvent::onMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMouseWheel(bool Up, bool Down)
+void CEvent::onMouseWheel(bool Up, bool Down)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnLButtonDown(int mX, int mY)
+void CEvent::onLButtonDown(int mX, int mY)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnLButtonUp(int mX, int mY)
+void CEvent::onLButtonUp(int mX, int mY)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnRButtonDown(int mX, int mY)
+void CEvent::onRButtonDown(int mX, int mY)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnRButtonUp(int mX, int mY)
+void CEvent::onRButtonUp(int mX, int mY)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMButtonDown(int mX, int mY)
+void CEvent::onMButtonDown(int mX, int mY)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMButtonUp(int mX, int mY)
+void CEvent::onMButtonUp(int mX, int mY)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value)
+void CEvent::onJoyAxis(Uint8 which, Uint8 axis, Sint16 value)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnJoyButtonDown(Uint8 which, Uint8 button)
+void CEvent::onJoyButtonDown(Uint8 which, Uint8 button)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnJoyButtonUp(Uint8 which, Uint8 button)
+void CEvent::onJoyButtonUp(Uint8 which, Uint8 button)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value)
+void CEvent::onJoyHat(Uint8 which, Uint8 hat, Uint8 value)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnJoyBall(Uint8 which, Uint8 ball, Sint16 xrel, Sint16 yrel)
+void CEvent::onJoyBall(Uint8 which, Uint8 ball, Sint16 xrel, Sint16 yrel)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnMinimize()
+void CEvent::onMinimize()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnRestore()
+void CEvent::onRestore()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnResize(int w, int h)
+void CEvent::onResize(int w, int h)
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnExpose()
+void CEvent::onExpose()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnExit()
+void CEvent::onExit()
 {
     // Pure virtual, do nothing
 }
 
-void CEvent::OnUser(Uint8 type, int code, void* data1, void* data2)
+void CEvent::onUser(Uint8 type, int code, void* data1, void* data2)
 {
     // Pure virtual, do nothing
 }
