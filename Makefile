@@ -18,12 +18,26 @@ INCLUDE_DIRS += -I$(PROJ_ROOT)/inc \
 				-I$(SDL_PATH)/include/SDL2 \
 				-I$(SDL_IMAGE_PATH)/include
 
-## Libs
-LIBS = -lSDL2 -lSDL2main -lSDL2_image
-LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib
+## Libs dynamical linkage
+LIBS = -lSDL2 -lSDL2main -lSDL2_image -lsndio
+LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib -L$(3RDPARTYDIR)/sndio
+
+## Libs statial linkage (make monolit release for distribution)
+#LIBS_STATIC = $(SDL_PATH)/lib/libSDL2.a \
+#		      $(SDL_PATH)/lib/libSDL2main.a \
+#		      $(SDL_PATH)/lib/libdl.a \
+#			  $(SDL_IMAGE_PATH)/lib/libSDL2_image.a
+#$(info LIBS_STATIC:$(LIBS_STATIC))
 
 ## Libs 3rd-party dependencies
-export LD_LIBRARY_PATH=$(3RDPARTYDIR)/sndio:$LD_LIBRARY_PATH
+#LD_LIBRARY_PATH+=$(3RDPARTYDIR)/sndio
+#LD_LIBRARY_PATH+=$(SDL_PATH)/lib
+#export LD_LIBRARY_PATH
+
+#export LD_LIBRARY_PATH=$(3RDPARTYDIR)/sndio:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$(SDL_PATH)/lib:$LD_LIBRARY_PATH
+#LD_LIBRARY_PATH=$(SDL_PATH)/lib:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH
 $(info LD_LIBRARY_PATH: $(LD_LIBRARY_PATH))
 
 ## Compiler
@@ -32,6 +46,8 @@ CXX = g++
 STATIC = lib$(COMPONENT_NAME).a
 DYNAMIC = lib$(COMPONENT_NAME).so
 CXXFLAGS = -Wall -Winline -Werror -pipe -std=c++11 -fPIC
+#LDFLAGS = -static-libgcc -Wl,-Bstatic
+#LDFLAGS = -pthread
 ifeq ($(BUILD_TYPE),DEBUG)
 	CXXFLAGS += -g -O0
 else ifeq ($(BUILD_TYPE),RELEASE)

@@ -71,7 +71,7 @@ bool CApp::onInit()
         std::cout << "SDL_CreateRenderer got NULL!" << std::endl;
         return false;
     }
-
+/*
     std::string img = "./assets/astronaut.png";
     mTexture = CSurface::loadTexture(mRenderer, img);
     if (mTexture == NULL)
@@ -79,14 +79,20 @@ bool CApp::onInit()
         std::cout << "Could not loadTexture!" << std::endl;
         return false;
     }
-
+*//*
     std::string gridAsset = "./assets/grid.png";
     if ((mGridText = CSurface::loadTexture(mRenderer, gridAsset)) == NULL)
     {
         std::cout << "Could not load asset!" << gridAsset << std::endl;
         return false;
+    }*/
+    mGridSurf = CSurface::OnLoad((char *)"./assets/grid.bmp");
+    if ( mGridSurf == NULL )
+    {
+        printf("Loading Image failed: %s\n", SDL_GetError());
+        return false;
     }
-
+/*
     std::string xAsset = "./assets/x.png";
     if ((mXSurf = CSurface::loadSurface(xAsset)) == NULL)
     {
@@ -100,15 +106,15 @@ bool CApp::onInit()
         std::cout << "Could not load asset" << oAsset << std::endl;
         return false;
     }
-
+*/
     mSurface->Transparent(mXSurf, 255, 0, 255);
     mSurface->Transparent(mOSurf, 255, 0, 255);
 
-
+/*
     SDL_SetRenderDrawColor(mRenderer, 0, 255, 0, 0); // green
     SDL_RenderClear(mRenderer);
     SDL_RenderPresent(mRenderer);
-
+*/
     resetGrid();
 
     return true;
@@ -122,22 +128,22 @@ bool CApp::onLoop()
 void CApp::onRender()
 {
     SDL_RenderClear(mRenderer);
-    // CSurface::OnDraw(mRenderer, mTexture, 0, 0);
+    CSurface::OnDraw(mRenderer, mTexture, 0, 0);
     // Render Grid
     for(int i = 0; i < 9; i++) {
         int X = (i % 3) * 200;
         int Y = (i / 3) * 200;
 
-        if(mGrid[i] == GRID_TYPE_X)
+        if (mGrid[i] == GRID_TYPE_X) {
+            CSurface::OnDraw(Surf_Screen, mXSurf, X, Y);
+        }
+        else if (mGrid[i] == GRID_TYPE_O)
         {
-            CSurface::OnDraw(Surf_Display, Surf_X, X, Y);
+                CSurface::OnDraw(Surf_Screen, mOSurf, X, Y);
         }
-        else {
-            if (mGrid[i] == GRID_TYPE_O)
-            {
-                CSurface::OnDraw(Surf_Display, Surf_O, X, Y);
-            }
-        }
+    }
+    SDL_UpdateWindowSurface(mWindow);
+
 
     SDL_RenderCopy(mRenderer, mGridText, NULL, NULL);
     SDL_RenderPresent(mRenderer);

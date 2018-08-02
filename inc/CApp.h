@@ -27,6 +27,9 @@ private:
 
     SDL_Texture* mTexture;
     SDL_Texture* mGridText;
+    SDL_Surface* mGridSurf;
+
+    SDL_Surface* Surf_Screen;
     SDL_Surface* mXSurf;
     SDL_Surface* mOSurf;
 

@@ -9,7 +9,7 @@ CSurface::CSurface()
 }
 
 SDL_Texture* CSurface::loadTexture(SDL_Renderer* renderer, std::string path)
-{
+{printf("loadTexture...");
     // The final texture
     SDL_Texture* newTexture = NULL;
 
@@ -37,6 +37,7 @@ SDL_Texture* CSurface::loadTexture(SDL_Renderer* renderer, std::string path)
 
 SDL_Surface* CSurface::loadSurface(std::string path)
 {
+    printf("loadSurface...");
     // Load image at specified path
     SDL_Surface* loadedSurface = IMG_Load(path.c_str());
     if (loadedSurface == NULL)
@@ -50,31 +51,33 @@ SDL_Surface* CSurface::loadSurface(std::string path)
 
 SDL_Surface* CSurface::OnLoad(const char* File)
 {
-    SDL_Surface* Surf_Temp = NULL;
-    SDL_Surface* Surf_Return = NULL;
+    SDL_Surface* Surf_Temp;
 
-    if ((Surf_Temp = IMG_Load(File)) == NULL)
+    Surf_Temp = SDL_LoadBMP(File);
+    if(Surf_Temp == NULL)
     {
-        std::cout << "Could not open file: " << File << std::endl;
-        std::cout << "Make sure it exist first." << std::endl;
+        printf("Loading BMP Failed: %s\n", SDL_GetError());
         return NULL;
     }
 
-    // Surf_Return = SDL_ConvertSurfaceFormat(Surf_Temp,
-    //                                       SDL_PIXELFORMAT_UNKNOWN,
-    //                                       0);
-    // Surf_Return = SDL_DisplayFormatAlpha(Surf_Temp);
-    Surf_Return = Surf_Temp;
+    return Surf_Temp;
+}
 
-
-    if (Surf_Return == NULL)
+bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int x, int y)
+{
+    if( Surf_Dest == NULL || Surf_Src == NULL )
     {
-        std::cout << "Could not convert surface format" << std::endl;
+        printf("Surface Drawing failed: %s\n", SDL_GetError());
+        return false;
     }
 
-    SDL_FreeSurface(Surf_Temp);
+    SDL_Rect DestR;
+    DestR.x = x;
+    DestR.y = y;
 
-    return Surf_Return;
+    SDL_BlitSurface(Surf_Src, NULL, Surf_Dest, &DestR);
+
+    return true;
 }
 
 bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int x, int y, int x2, int y2, int w, int h)
