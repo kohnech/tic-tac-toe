@@ -12,8 +12,8 @@
 CApp::CApp()
 : mIsRunning{ true }
 , Surf_Display{ NULL }
-, Surf_Screen { NULL}
-, Surf_Grid { NULL }
+, Surf_Screen{ NULL }
+, Surf_Grid{ NULL }
 , Surf_X{ NULL }
 , Surf_O{ NULL }
 , mRenderer{ NULL }
@@ -28,7 +28,7 @@ CApp::~CApp()
 
 void CApp::resetGrid()
 {
-    for(int i = 0;i < 9;i++)
+    for (int i = 0; i < 9; i++)
     {
         mGrid[i] = GRID_TYPE_NONE;
     }
@@ -36,11 +36,11 @@ void CApp::resetGrid()
 
 void CApp::setCell(int index, GridType type)
 {
-    if(index < 0 || index >= 9)
+    if (index < 0 || index >= 9)
     {
         return;
     }
-    if(type < 0 || type > GRID_TYPE_O)
+    if (type < 0 || type > GRID_TYPE_O)
     {
         return;
     }
@@ -57,7 +57,7 @@ bool CApp::onInit()
     }
 
     Surf_Display = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                               SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
+                                    SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
 
     if (Surf_Display == NULL)
     {
@@ -68,22 +68,22 @@ bool CApp::onInit()
 
     Surf_Screen = SDL_GetWindowSurface(Surf_Display);
 
-    Surf_Grid = CSurface::OnLoad((char *)"./assets/grid.bmp");
-    if ( Surf_Grid == NULL )
+    Surf_Grid = CSurface::OnLoad((char*)"./assets/grid.bmp");
+    if (Surf_Grid == NULL)
     {
         printf("Loading Image failed: %s\n", SDL_GetError());
         return false;
     }
 
-    Surf_X = CSurface::OnLoad((char *)"./assets/x.bmp");
-    if ( Surf_X == NULL )
+    Surf_X = CSurface::OnLoad((char*)"./assets/x.bmp");
+    if (Surf_X == NULL)
     {
         printf("Loading Image failed: %s\n", SDL_GetError());
         return false;
     }
 
-    Surf_O = CSurface::OnLoad((char *)"./assets/o.bmp");
-    if ( Surf_O == NULL )
+    Surf_O = CSurface::OnLoad((char*)"./assets/o.bmp");
+    if (Surf_O == NULL)
     {
         printf("Loading Image failed: %s\n", SDL_GetError());
         return false;
@@ -106,16 +106,18 @@ void CApp::onRender()
 {
     CSurface::OnDraw(Surf_Screen, Surf_Grid, 0, 0);
     // Render Grid
-    for(int i = 0; i < 9; i++) {
+    for (int i = 0; i < 9; i++)
+    {
         int X = (i % 3) * 200;
         int Y = (i / 3) * 200;
 
-        if (mGrid[i] == GRID_TYPE_X) {
+        if (mGrid[i] == GRID_TYPE_X)
+        {
             CSurface::OnDraw(Surf_Screen, Surf_X, X, Y);
         }
         else if (mGrid[i] == GRID_TYPE_O)
         {
-                CSurface::OnDraw(Surf_Screen, Surf_O, X, Y);
+            CSurface::OnDraw(Surf_Screen, Surf_O, X, Y);
         }
     }
     SDL_UpdateWindowSurface(Surf_Display);
@@ -145,15 +147,18 @@ void CApp::onExit()
     mIsRunning = false;
 }
 
-void CApp::onLButtonDown(int x, int y) {
-    int ID    = x / 200;
+void CApp::onLButtonDown(int x, int y)
+{
+    int ID = x / 200;
     ID = ID + ((y / 200) * 3);
 
-    if(mGrid[ID] != GRID_TYPE_NONE) {
+    if (mGrid[ID] != GRID_TYPE_NONE)
+    {
         return;
     }
 
-    if(CurrentPlayer == 0) {
+    if (CurrentPlayer == 0)
+    {
         setCell(ID, GRID_TYPE_X);
         CurrentPlayer = 1;
     }

@@ -9,7 +9,8 @@ CSurface::CSurface()
 }
 
 SDL_Texture* CSurface::loadTexture(SDL_Renderer* renderer, std::string path)
-{printf("loadTexture...");
+{
+    printf("loadTexture...");
     // The final texture
     SDL_Texture* newTexture = NULL;
 
@@ -54,7 +55,7 @@ SDL_Surface* CSurface::OnLoad(const char* File)
     SDL_Surface* Surf_Temp;
 
     Surf_Temp = SDL_LoadBMP(File);
-    if(Surf_Temp == NULL)
+    if (Surf_Temp == NULL)
     {
         printf("Loading BMP Failed: %s\n", SDL_GetError());
         return NULL;
@@ -65,7 +66,7 @@ SDL_Surface* CSurface::OnLoad(const char* File)
 
 bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int x, int y)
 {
-    if( Surf_Dest == NULL || Surf_Src == NULL )
+    if (Surf_Dest == NULL || Surf_Src == NULL)
     {
         printf("Surface Drawing failed: %s\n", SDL_GetError());
         return false;
@@ -82,7 +83,7 @@ bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int x, int 
 
 bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int x, int y, int x2, int y2, int w, int h)
 {
-    if( Surf_Dest == NULL || Surf_Src == NULL )
+    if (Surf_Dest == NULL || Surf_Src == NULL)
     {
         printf("Surface Drawing failed: %s\n", SDL_GetError());
         return false;
