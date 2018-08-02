@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Starting main SDL2 first test..." << std::endl;
+    std::cout << "Starting main loop..." << std::endl;
     CApp theApp;
 
     if (theApp.onInit() == false)

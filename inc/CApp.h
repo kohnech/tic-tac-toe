@@ -23,22 +23,36 @@ class CApp : public CEvent
 private:
     bool mIsRunning;
 
-    SDL_Window* mWindow;
+    SDL_Window* Surf_Display;
+    SDL_Surface* Surf_Screen;
 
-    SDL_Texture* mTexture;
-    SDL_Texture* mGrid;
-    SDL_Surface* mX;
-    SDL_Surface* mO;
+    SDL_Surface* Surf_Grid;
+    SDL_Surface* Surf_X;
+    SDL_Surface* Surf_O;
 
     SDL_Renderer* mRenderer;
 
     CSurface* mSurface;
+
+    enum GridType
+    {
+        GRID_TYPE_NONE = 0,
+        GRID_TYPE_X,
+        GRID_TYPE_O
+    };
+
+    GridType mGrid[9];
+    int CurrentPlayer;
 
 public:
     CApp();
     ~CApp();
 
 public:
+    void resetGrid();
+
+    void setCell(int index, GridType type);
+
     bool onInit();
 
     bool onLoop();
@@ -48,6 +62,8 @@ public:
     void onCleanup();
 
     void onExit();
+
+    void onLButtonDown(int x, int y);
 
     void onResize(int w, int h);
 
