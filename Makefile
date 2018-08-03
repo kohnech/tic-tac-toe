@@ -12,15 +12,19 @@ SDL_VERSION=2.0.8
 SDL_PATH = $(3RDPARTYDIR)/SDL2-$(SDL_VERSION)
 SDL_IMAGE_VERSION=2.0.3
 SDL_IMAGE_PATH =$(3RDPARTYDIR)/SDL2_image-$(SDL_IMAGE_VERSION)
+SDL_TTF_PATH =$(3RDPARTYDIR)/SDL2_ttf-2.0.14
+SDL_FREETYPE_PATH =$(3RDPARTYDIR)/freetype-2.4.10
 
 INCLUDE_DIRS += -I$(PROJ_ROOT)/inc \
 				-I$(SDL_PATH)/include \
 				-I$(SDL_PATH)/include/SDL2 \
-				-I$(SDL_IMAGE_PATH)/include
+				-I$(SDL_IMAGE_PATH)/include \
+				-I$(SDL_TTF_PATH)/include \
+				-I$(SDL_FREETYPE_PATH)/include \
 
 ## Libs dynamical linkage
-LIBS = -lSDL2 -lSDL2main -lSDL2_image -lsndio
-LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib -L$(3RDPARTYDIR)/sndio
+LIBS = -lSDL2 -lSDL2main -lSDL2_image -lsndio -lSDL2_ttf -lfreetype
+LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib -L$(3RDPARTYDIR)/sndio -L$(SDL_TTF_PATH)/lib -L$(SDL_FREETYPE_PATH)/lib
 
 ## Libs statial linkage (make monolit release for distribution)
 #LIBS_STATIC = $(SDL_PATH)/lib/libSDL2.a \
