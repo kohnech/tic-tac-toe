@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL_image.h>
 
 #include <iostream>
@@ -16,6 +17,8 @@ CApp::CApp()
 , Surf_Grid{ NULL }
 , Surf_X{ NULL }
 , Surf_O{ NULL }
+, surfaceMessage{ NULL }
+, mFont{ NULL }
 , mRenderer{ NULL }
 , mSurface{ new CSurface() }
 , CurrentPlayer{ 0 }
@@ -24,6 +27,7 @@ CApp::CApp()
 
 CApp::~CApp()
 {
+    onCleanup();
 }
 
 void CApp::resetGrid()
@@ -54,6 +58,10 @@ bool CApp::onInit()
     {
         printf("SDL_Init failed: %s\n", SDL_GetError());
         return false;
+    }
+
+    if (TTF_Init() < 0) {
+        printf("TTF_Init failed: %s\n", SDL_GetError());
     }
 
     Surf_Display = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -94,6 +102,15 @@ bool CApp::onInit()
 
     resetGrid();
 
+    // Font stuff
+    mFont = TTF_OpenFont("./assets/Ubuntu-C.ttf", 25);
+
+    if (mFont < 0) {
+        printf("Could not load fond TTF_OpenFont");
+    }
+
+    mMessage = "Welcome to Tic Tac Toe!";
+
     return true;
 }
 
@@ -108,8 +125,8 @@ void CApp::onRender()
     // Render Grid
     for (int i = 0; i < 9; i++)
     {
-        int X = (i % 3) * 200;
-        int Y = (i / 3) * 200;
+        int X = (i % 3) * CELL_WIDTH;
+        int Y = (i / 3) * CELL_WIDTH;
 
         if (mGrid[i] == GRID_TYPE_X)
         {
@@ -120,6 +137,8 @@ void CApp::onRender()
             CSurface::OnDraw(Surf_Screen, Surf_O, X, Y);
         }
     }
+    surfaceMessage = TTF_RenderUTF8_Solid(mFont, mMessage.c_str(), BLUE);
+    CSurface::OnDraw(Surf_Screen, surfaceMessage, 0, 0);
     SDL_UpdateWindowSurface(Surf_Display);
 
     SDL_Delay(1000 / FRAMES_PER_SECOND);
@@ -129,6 +148,8 @@ void CApp::onCleanup()
 {
     SDL_FreeSurface(Surf_X);
     SDL_FreeSurface(Surf_O);
+    SDL_FreeSurface(surfaceMessage);
+    TTF_CloseFont(mFont);
     SDL_FreeSurface(Surf_Grid);
 
     SDL_FreeSurface(Surf_Screen);
@@ -136,7 +157,7 @@ void CApp::onCleanup()
 
     delete mSurface;
 
-
+    TTF_Quit();
     SDL_Quit();
     std::cout << "Quitting..." << std::endl;
 }
@@ -149,22 +170,24 @@ void CApp::onExit()
 
 void CApp::onLButtonDown(int x, int y)
 {
-    int ID = x / 200;
-    ID = ID + ((y / 200) * 3);
+    int ind = x / CELL_WIDTH;
+    ind = ind + ((y / CELL_WIDTH) * 3);
 
-    if (mGrid[ID] != GRID_TYPE_NONE)
+    if (mGrid[ind] != GRID_TYPE_NONE)
     {
         return;
     }
 
     if (CurrentPlayer == 0)
     {
-        setCell(ID, GRID_TYPE_X);
+        mMessage = "Player2";
+        setCell(ind, GRID_TYPE_X);
         CurrentPlayer = 1;
     }
     else
     {
-        setCell(ID, GRID_TYPE_O);
+        mMessage = "Player1";
+        setCell(ind, GRID_TYPE_O);
         CurrentPlayer = 0;
     }
 }

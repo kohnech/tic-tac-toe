@@ -26,7 +26,5 @@ int main(int argc, char* argv[])
         theApp.onRender();
     }
 
-    theApp.onCleanup();
-
     return EXIT_SUCCESS;
 }

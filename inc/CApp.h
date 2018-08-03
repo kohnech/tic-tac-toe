@@ -3,6 +3,7 @@
 #include "CEvent.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <string>
 
@@ -13,9 +14,16 @@ class CSurface;
 // Screen dimension constants
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;
+const int CELL_WIDTH = 200;
 
 const int FRAMES_PER_SECOND = 2;
 const char TITLE[] = "Tic Tac Toe";
+
+// Colors
+const SDL_Color WHITE = { 255, 255, 255 };
+const SDL_Color RED = { 255, 0, 0 };
+const SDL_Color GREEN = { 0, 255, 0 };
+const SDL_Color BLUE = { 0, 0, 255 };
 
 
 class CApp : public CEvent
@@ -29,6 +37,10 @@ private:
     SDL_Surface* Surf_Grid;
     SDL_Surface* Surf_X;
     SDL_Surface* Surf_O;
+
+    SDL_Surface* surfaceMessage; // Text surface
+    TTF_Font* mFont;
+    std::string mMessage;
 
     SDL_Renderer* mRenderer;
 
