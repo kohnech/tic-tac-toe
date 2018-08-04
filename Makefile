@@ -34,7 +34,7 @@ LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib -L$(3RDPARTY
 #$(info LIBS_STATIC:$(LIBS_STATIC))
 
 ## Libs 3rd-party dependencies
-export LD_LIBRARY_PATH=$(SDL_PATH)/lib:$(SDL_IMAGE_PATH)/lib:$(SDL_TTF_PATH)/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$(SDL_PATH)/lib:$(SDL_IMAGE_PATH)/lib:$(SDL_TTF_PATH)/lib:$(3RDPARTYDIR)/sndio:$LD_LIBRARY_PATH
 $(info LD_LIBRARY_PATH: $(LD_LIBRARY_PATH))
 
 ## Compiler
