@@ -60,7 +60,8 @@ bool CApp::onInit()
         return false;
     }
 
-    if (TTF_Init() < 0) {
+    if (TTF_Init() < 0)
+    {
         printf("TTF_Init failed: %s\n", SDL_GetError());
     }
 
@@ -105,7 +106,8 @@ bool CApp::onInit()
     // Font stuff
     mFont = TTF_OpenFont("./assets/Ubuntu-C.ttf", 25);
 
-    if (mFont < 0) {
+    if (mFont < 0)
+    {
         printf("Could not load fond TTF_OpenFont");
     }
 
