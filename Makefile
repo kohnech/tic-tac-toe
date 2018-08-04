@@ -26,13 +26,6 @@ INCLUDE_DIRS += -I$(PROJ_ROOT)/inc \
 LIBS = -lSDL2 -lSDL2main -lSDL2_image -lsndio -lSDL2_ttf -lfreetype
 LIBS_PATH = -L$(BUILDDIR) -L$(SDL_PATH)/lib -L$(SDL_IMAGE_PATH)/lib -L$(3RDPARTYDIR)/sndio -L$(SDL_TTF_PATH)/lib -L$(SDL_FREETYPE_PATH)/lib
 
-## Libs statial linkage (make monolit release for distribution)
-#LIBS_STATIC = $(SDL_PATH)/lib/libSDL2.a \
-#		      $(SDL_PATH)/lib/libSDL2main.a \
-#		      $(SDL_PATH)/lib/libdl.a \
-#			  $(SDL_IMAGE_PATH)/lib/libSDL2_image.a
-#$(info LIBS_STATIC:$(LIBS_STATIC))
-
 ## Libs 3rd-party dependencies
 export LD_LIBRARY_PATH=$(SDL_PATH)/lib:$(SDL_IMAGE_PATH)/lib:$(SDL_TTF_PATH)/lib:$(3RDPARTYDIR)/sndio:$LD_LIBRARY_PATH
 $(info LD_LIBRARY_PATH: $(LD_LIBRARY_PATH))
@@ -43,8 +36,7 @@ CXX = g++
 STATIC = lib$(COMPONENT_NAME).a
 DYNAMIC = lib$(COMPONENT_NAME).so
 CXXFLAGS = -Wall -Winline -Werror -pipe -std=c++11 -fPIC
-#LDFLAGS = -static-libgcc -Wl,-Bstatic
-#LDFLAGS = -pthread
+
 ifeq ($(BUILD_TYPE),DEBUG)
 	CXXFLAGS += -g -O0
 else ifeq ($(BUILD_TYPE),RELEASE)
@@ -96,9 +88,6 @@ $(OBJS): $(BUILDDIR)/%.o : $(SRCDIR)/%.cpp
 	@echo [Compile] $<
 	@$(CXX) $(INCLUDE_DIRS) -c $(CXXFLAGS) $< -o $@
 
-$(BUILDDIR)/$(STATIC): $(OBJS)
-	@echo "[Link (Static)]"
-	@ar rcs $@ $^
 
 lint: clang-format
 
@@ -109,4 +98,3 @@ clean:
 	rm -f $(OBJS)
 	rm -f $(BUILDDIR)/$(COMPONENT_NAME)
 	rm -f $(BUILDDIR)/main.o
-	rm -f $(BUILDDIR)/$(STATIC)
